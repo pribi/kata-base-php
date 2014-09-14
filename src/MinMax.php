@@ -4,23 +4,66 @@ namespace Kata;
 
 class MinMax
 {
+    const PRECISION = 6;
+
+    private $numbers;
+
+    public function __construct(array $sequence)
+    {
+        $this->numbers = $sequence;
+    }
+
     public function min()
     {
-        return -2;
+        $min = 0;
+
+        foreach ($this->numbers as $number)
+        {
+            if ($number < $min)
+            {
+                $min = $number;
+            }
+        }
+
+        return $min;
     }
 
     public function max()
     {
-        return 92;
+        $max = 0;
+
+        foreach ($this->numbers as $number)
+        {
+            if ($number > $max)
+            {
+                $max = $number;
+            }
+        }
+
+        return $max;
     }
 
     public function count()
     {
-        return 6;
+        $count = 0;
+
+        foreach ($this->numbers as $number)
+        {
+            $count++;
+        }
+
+        return $count;
     }
 
     public function average()
     {
-        return 21.833333;
+        $sum = 0;
+
+        foreach ($this->numbers as $number)
+        {
+            $sum += $number;
+        }
+
+        return round($sum / $this->count(), self::PRECISION);
     }
 }
