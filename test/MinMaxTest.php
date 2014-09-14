@@ -61,7 +61,12 @@ class MinMaxTest extends \PHPUnit_Framework_TestCase
     public function minDataProvider()
     {
         return array(
-            array(-2, array(6, 9, 15, -2, 92, 11))
+            array(0, array(0)),
+            array(1, array(1, 2, 3)),
+            array(-3, array(-1, -2, -3)),
+            array(1.41, array(1.41, 2.81, 3.14)),
+            array(-2, array(6, 9, 15, -2, 92, 11)),
+            array(null, array()),
         );
     }
 
@@ -72,7 +77,12 @@ class MinMaxTest extends \PHPUnit_Framework_TestCase
     public function maxDataProvider()
     {
         return array(
-            array(92, array(6, 9, 15, -2, 92, 11))
+            array(0, array(0)),
+            array(3, array(1, 2, 3)),
+            array(-1, array(-1, -2, -3)),
+            array(3.14, array(1.41, 2.81, 3.14)),
+            array(92, array(6, 9, 15, -2, 92, 11)),
+            array(null, array()),
         );
     }
 
@@ -83,7 +93,12 @@ class MinMaxTest extends \PHPUnit_Framework_TestCase
     public function countDataProvider()
     {
         return array(
-            array(6, array(6, 9, 15, -2, 92, 11))
+            array(1, array(0)),
+            array(3, array(1, 2, 3)),
+            array(3, array(-1, -2, -3)),
+            array(3, array(1.41, 2.81, 3.14)),
+            array(6, array(6, 9, 15, -2, 92, 11)),
+            array(0, array()),
         );
     }
 
@@ -94,7 +109,12 @@ class MinMaxTest extends \PHPUnit_Framework_TestCase
     public function averageDataProvider()
     {
         return array(
-            array(21.833333, array(6, 9, 15, -2, 92, 11))
+            array(0, array(0)),
+            array(2, array(1, 2, 3)),
+            array(-2, array(-1, -2, -3)),
+            array(2.453333, array(1.41, 2.81, 3.14)),
+            array(21.833333, array(6, 9, 15, -2, 92, 11)),
+            array(null, array()),
         );
     }
 }

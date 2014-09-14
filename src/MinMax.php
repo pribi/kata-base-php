@@ -35,10 +35,14 @@ class MinMax
      */
     public function min()
     {
-        $min = 0;
+        $min = null;
 
         foreach ($this->numbers as $number)
         {
+            if (null === $min) {
+                $min = $number;
+            }
+
             if ($number < $min)
             {
                 $min = $number;
@@ -55,10 +59,14 @@ class MinMax
      */
     public function max()
     {
-        $max = 0;
+        $max = null;
 
         foreach ($this->numbers as $number)
         {
+            if (null === $max) {
+                $max = $number;
+            }
+
             if ($number > $max)
             {
                 $max = $number;
@@ -99,6 +107,12 @@ class MinMax
             $sum += $number;
         }
 
-        return round($sum / $this->count(), self::PRECISION);
+        $count = $this->count();
+        if ($count > 0) {
+            return round($sum / $count, self::PRECISION);
+        } else {
+            return null;
+        }
+
     }
 }
