@@ -22,7 +22,7 @@ class CartTest extends \PHPUnit_Framework_TestCase{
     {
         $cart = new Cart();
         foreach ($items as $item) {
-            $cart->add(new Item(new Product($item[0][0], $item[0][1], $item[0][2]), $item[1]));
+            $cart->addItem(new Item(new Product($item[0][0], $item[0][1], $item[0][2]), $item[1]));
         }
 
         $this->assertEquals($result, $cart->getPrice());

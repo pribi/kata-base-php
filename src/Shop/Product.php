@@ -70,4 +70,14 @@ class Product
     {
         return $this->unit;
     }
+
+    /**
+     * Set price
+     *
+     * @param $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
 }

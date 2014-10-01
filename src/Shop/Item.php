@@ -43,4 +43,64 @@ class Item {
     {
         return $this->product->getPrice() * $this->quantity;
     }
-} 
+
+    /**
+     * Return product name
+     *
+     * @return string
+     */
+    public function getProductName()
+    {
+        return $this->product->getName();
+    }
+
+    /**
+     * Return quantity
+     *
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Set price
+     *
+     * @param $price
+     */
+    public function setPrice($price)
+    {
+        $this->product->setPrice($price);
+    }
+
+    /**
+     * Returns name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->product->getName();
+    }
+
+    /**
+     * Return price
+     *
+     * @return float
+     */
+    public function getProductPrice()
+    {
+        return $this->product->getPrice();
+    }
+
+    /**
+     * return unit
+     *
+     * @return string
+     */
+    public function getProductUnit()
+    {
+        return $this->product->getUnit();
+    }
+}
