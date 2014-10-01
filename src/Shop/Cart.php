@@ -32,8 +32,8 @@ class Cart {
     public function addDiscount($discount)
     {
         // Discount rule condition met
-        if ($discount->getStrict() && ($this->getQuantity($discount->getName()) > $discount->getMinimumQuantity())
-            || !$discount->getStrict() && ($this->getQuantity($discount->getName()) >= $discount->getMinimumQuantity())) {
+        if ($discount->getStrict() && ($this->getQuantity($discount->getName()) > $discount->getQuantity())
+            || !$discount->getStrict() && ($this->getQuantity($discount->getName()) >= $discount->getQuantity())) {
 
             // New price rule
             if (false !== $discount->getNewPrice()) {
@@ -106,24 +106,9 @@ class Cart {
     public function setNewQuantity($name, $quantity)
     {
         if ($quantity > $this->getQuantity($name)) {
-            $product = new Product($name, $this->getProductPrice($name), $this->getProductUnit($name));
+            $product = new Product($name, 0, $this->getProductUnit($name));
             $item = new Item($product, $quantity - $this->getQuantity($name));
             $this->addItem($item);
-        }
-    }
-
-    /**
-     * Return product price
-     *
-     * @param $name
-     * @return mixed
-     */
-    public function getProductPrice($name)
-    {
-        foreach ($this->items as $item) {
-            if ($item->getName() == $name) {
-                return $item->getProductPrice();
-            }
         }
     }
 

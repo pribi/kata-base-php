@@ -43,5 +43,6 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $cart->addDiscount($discount);
 
         $this->assertEquals(3, $cart->getQuantity('Starship'));
+        $this->assertEquals(1999.98, $cart->getPrice());
     }
 }

@@ -85,16 +85,6 @@ class Item {
     }
 
     /**
-     * Return price
-     *
-     * @return float
-     */
-    public function getProductPrice()
-    {
-        return $this->product->getPrice();
-    }
-
-    /**
      * return unit
      *
      * @return string

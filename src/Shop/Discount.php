@@ -10,7 +10,7 @@ class Discount
      *
      * @var float
      */
-    private $minimumQuantity;
+    private $quantity;
 
     /**
      * Strict rule means quantity must exceed minimum quantity
@@ -37,15 +37,15 @@ class Discount
      * Default constructor
      *
      * @param $name
-     * @param $minimumQuantity
+     * @param $quantity
      * @param $strict
      * @param $newPrice
      * @param $newQuantity
      */
-    public function __construct($name, $minimumQuantity, $strict, $newPrice = false, $newQuantity = false)
+    public function __construct($name, $quantity, $strict, $newPrice = false, $newQuantity = false)
     {
         $this->name = $name;
-        $this->minimumQuantity = $minimumQuantity;
+        $this->quantity = $quantity;
         $this->strict = $strict;
         $this->newPrice = $newPrice;
         $this->newQuantity = $newQuantity;
@@ -66,9 +66,9 @@ class Discount
      *
      * @return float
      */
-    public function getMinimumQuantity()
+    public function getQuantity()
     {
-        return $this->minimumQuantity;
+        return $this->quantity;
     }
 
     /**
