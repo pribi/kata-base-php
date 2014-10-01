@@ -5,6 +5,11 @@ namespace Kata\Shop\Item;
 use Kata\Shop\Item;
 use Kata\Shop\Product;
 
+/*
+ * @TODO
+ * - test with extremities, e.g. empty item or invalid data
+ */
+
 /**
  * Class ItemTest
  * @package Kata\Shop\Item

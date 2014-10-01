@@ -32,8 +32,8 @@ class Cart {
     public function addDiscount($discount)
     {
         // Discount rule condition met
-        if ($discount->getStrict() && ($this->getQuantity($discount->getName()) > $discount->getQuantity())
-            || !$discount->getStrict() && ($this->getQuantity($discount->getName()) >= $discount->getQuantity())) {
+        if (!$discount->getStrict() && ($this->getQuantity($discount->getName()) > $discount->getQuantity())
+            || $discount->getStrict() && ($this->getQuantity($discount->getName()) == $discount->getQuantity())) {
 
             // New price rule
             if (false !== $discount->getNewPrice()) {

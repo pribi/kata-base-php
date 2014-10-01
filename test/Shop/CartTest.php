@@ -6,6 +6,11 @@ use Kata\Shop\Product;
 use Kata\Shop\Item;
 use Kata\Shop\Cart;
 
+/*
+ * @TODO
+ * - test with extremities, e.g. empty cart or invalid data
+ */
+
 /**
  * Class CartTest
  * @package Kata\Shop\Cart

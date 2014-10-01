@@ -4,6 +4,11 @@ namespace Kata\Shop\Product;
 
 use Kata\Shop\Product;
 
+/*
+ * @TODO
+ * - test with invalid data
+ */
+
 /**
  * Class Product
  * @package Shop
