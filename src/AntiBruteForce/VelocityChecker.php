@@ -5,6 +5,7 @@ namespace Kata\AntiBruteForce;
  * Class VelocityChecker
  *
  * @package Kata\AntiBruteForce
+ *
  * @author Janos Pribelszki
  */
 class VelocityChecker {
