@@ -74,4 +74,22 @@ class Counter {
 
         return $counter;
     }
+
+    /**
+     * Returns number of requests from an IP country
+     *
+     * @param string $ipCountry IP country
+     * @return int Number of requests from an IP
+     */
+    public function getFailedLoginCountIpCountry($ipCountry)
+    {
+        $counter = 0;
+        foreach ($this->failedLoginAttempts as $attempt) {
+            if ($attempt['ip_country'] == $ipCountry) {
+                $counter++;
+            }
+        }
+
+        return $counter;
+    }
 }
