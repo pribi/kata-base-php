@@ -36,6 +36,18 @@ class Counter {
     }
 
     /**
+     * Logs a failed login attempt
+     *
+     * @param array $failedLogins Failed login attempts
+     */
+    public function logFailedLoginAttempts($failedLogins)
+    {
+        foreach ($failedLogins as $failedLogin) {
+            $this->logFailedLoginAttempt($failedLogin['ip'], $failedLogin['ip_country'], $failedLogin['username']);
+        }
+    }
+
+    /**
      * Returns number of requests from an IP
      *
      * @param $ip IP address

@@ -29,9 +29,7 @@ class CounterTest extends \PHPUnit_Framework_TestCase
     public function testGetFailedLoginCount($ipCount, $ip, $ipRangeCount, $ipRange, $ipCountryCount, $ipCountry, $requests)
     {
         $counter = new Counter();
-        foreach ($requests as $request) {
-            $counter->logFailedLoginAttempt($request['ip'], $request['ip_country'], $request['username']);
-        }
+        $counter->logFailedLoginAttempts($requests);
 
         $this->assertEquals($ipCount, $counter->getFailedLoginCountIp($ip));
         $this->assertEquals($ipRangeCount, $counter->getFailedLoginCountIpRange($ipRange));
