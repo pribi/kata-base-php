@@ -21,17 +21,20 @@ class Counter {
     /**
      * Logs a failed login attempt
      *
-     * @param $ip         IP address
-     * @param $ip_country IP country
-     * @param $username   Username
+     * @param string $ip            IP address
+     * @param string $ipCountry     IP country
+     * @param string $username      Username
+     * @param bool $isCaptchaActive Is captcha active
      */
-    public function logFailedLogin($ip, $ip_country, $username)
+    public function logFailedLogin($ip, $ipCountry, $username, $isCaptchaActive)
     {
+        // Log failed login attempt
         $this->failedLoginAttempts[] = array(
             'ip' => $ip,
-            'ip_country' => $ip_country,
+            'ip_country' => $ipCountry,
             'username' => $username,
             'ts' => time(),
+            'is_captcha_active' => $isCaptchaActive,
         );
     }
 
@@ -43,14 +46,20 @@ class Counter {
     public function logFailedLogins($failedLogins)
     {
         foreach ($failedLogins as $failedLogin) {
-            $this->logFailedLogin($failedLogin['ip'], $failedLogin['ip_country'], $failedLogin['username']);
+            $this->logFailedLogin(
+                $failedLogin['ip'],
+                $failedLogin['ip_country'],
+                $failedLogin['username'],
+                $failedLogin['is_captcha_active']
+            );
         }
     }
 
     /**
      * Returns number of requests from an IP
      *
-     * @param $ip IP address
+     * @param string $ip IP address
+     *
      * @return int Number of requests from an IP
      */
     public function getFailedLoginCountIp($ip)
@@ -68,7 +77,8 @@ class Counter {
     /**
      * Returns number of requests from an IP range
      *
-     * @param $ipRange IP address
+     * @param string $ipRange IP address
+     *
      * @return int Number of requests from an IP range
      */
     public function getFailedLoginCountIpRange($ipRange)
@@ -79,7 +89,7 @@ class Counter {
             $ipArr[3] = 'x';
             $ipX = implode('.', $ipArr);
 
-            if ($ipRange == $ipX) {
+            if ($ipRange == $ipX && !$attempt['is_captcha_active']) {
                 $counter++;
             }
         }
@@ -91,13 +101,14 @@ class Counter {
      * Returns number of requests from an IP country
      *
      * @param string $ipCountry IP country
+     *
      * @return int Number of requests from an IP
      */
     public function getFailedLoginCountIpCountry($ipCountry)
     {
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
-            if ($attempt['ip_country'] == $ipCountry) {
+            if ($attempt['ip_country'] == $ipCountry && !$attempt['is_captcha_active']) {
                 $counter++;
             }
         }
@@ -116,7 +127,7 @@ class Counter {
     {
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
-            if ($attempt['username'] == $username) {
+            if ($attempt['username'] == $username && !$attempt['is_captcha_active']) {
                 $counter++;
             }
         }
