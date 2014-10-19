@@ -89,28 +89,28 @@ class CounterTest extends \PHPUnit_Framework_TestCase
         $counter = new Counter();
 
         // Captcha is inactive increase IP, IP range, IP country and username counters
-        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', false);
+        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', 'US', false);
         $this->assertEquals(1, $counter->getFailedLoginCountIp('192.168.0.1'));
         $this->assertEquals(1, $counter->getFailedLoginCountIpRange('192.168.0.x'));
         $this->assertEquals(1, $counter->getFailedLoginCountIpCountry('US'));
         $this->assertEquals(1, $counter->getFailedLoginCountUsername('bill'));
 
         // Captcha is inactive increase IP, IP range, IP country and username counters
-        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', false);
+        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', 'US', false);
         $this->assertEquals(2, $counter->getFailedLoginCountIp('192.168.0.1'));
         $this->assertEquals(2, $counter->getFailedLoginCountIpRange('192.168.0.x'));
         $this->assertEquals(2, $counter->getFailedLoginCountIpCountry('US'));
         $this->assertEquals(2, $counter->getFailedLoginCountUsername('bill'));
 
         // Captcha is inactive increase IP, IP range, IP country and username counters
-        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', false);
+        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', 'US', false);
         $this->assertEquals(3, $counter->getFailedLoginCountIp('192.168.0.1'));
         $this->assertEquals(3, $counter->getFailedLoginCountIpRange('192.168.0.x'));
         $this->assertEquals(3, $counter->getFailedLoginCountIpCountry('US'));
         $this->assertEquals(3, $counter->getFailedLoginCountUsername('bill'));
 
         // Captcha is active increase only the IP counter
-        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', true);
+        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', 'US', true);
         $this->assertEquals(4, $counter->getFailedLoginCountIp('192.168.0.1'));
         $this->assertEquals(3, $counter->getFailedLoginCountIpRange('192.168.0.x'));
         $this->assertEquals(3, $counter->getFailedLoginCountIpCountry('US'));
@@ -129,8 +129,8 @@ class CounterTest extends \PHPUnit_Framework_TestCase
                 1,
                 '192.168.0.1',
                 array(
-                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
-                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
                 )
             ),
         );
@@ -148,8 +148,8 @@ class CounterTest extends \PHPUnit_Framework_TestCase
                 2,
                 '192.168.0.x',
                 array(
-                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
-                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
                 )
             ),
         );
@@ -167,8 +167,8 @@ class CounterTest extends \PHPUnit_Framework_TestCase
                 '2',
                 'US',
                 array(
-                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
-                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
                 )
             ),
         );
@@ -186,8 +186,8 @@ class CounterTest extends \PHPUnit_Framework_TestCase
                 '2',
                 'bill',
                 array(
-                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
-                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill', 'registration_country' => 'US', 'is_captcha_active' => false),
                 )
             ),
         );

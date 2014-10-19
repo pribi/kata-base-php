@@ -21,18 +21,20 @@ class Counter {
     /**
      * Logs a failed login attempt
      *
-     * @param string $ip            IP address
-     * @param string $ipCountry     IP country
-     * @param string $username      Username
-     * @param bool $isCaptchaActive Is captcha active
+     * @param string $ip                  IP address
+     * @param string $ipCountry           IP country
+     * @param string $username            Username
+     * @param string $registrationCountry Username registration country
+     * @param bool $isCaptchaActive       Is captcha active
      */
-    public function logFailedLogin($ip, $ipCountry, $username, $isCaptchaActive)
+    public function logFailedLogin($ip, $ipCountry, $username, $registrationCountry, $isCaptchaActive)
     {
         // Log failed login attempt
         $this->failedLoginAttempts[] = array(
             'ip' => $ip,
             'ip_country' => $ipCountry,
             'username' => $username,
+            'registration_country' => $registrationCountry,
             'ts' => time(),
             'is_captcha_active' => $isCaptchaActive,
         );
@@ -50,6 +52,7 @@ class Counter {
                 $failedLogin['ip'],
                 $failedLogin['ip_country'],
                 $failedLogin['username'],
+                $failedLogin['registration_country'],
                 $failedLogin['is_captcha_active']
             );
         }
@@ -133,5 +136,25 @@ class Counter {
         }
 
         return $counter;
+    }
+
+    /**
+     * Is username registration country different than IP country
+     *
+     * @param string $username Username
+     * @param string $ip       IP address
+     *
+     * @return bool
+     */
+    public function isRegistrationCountyDifferent($username, $ip)
+    {
+        $use = false;
+        foreach ($this->failedLoginAttempts as $attempt) {
+            if ($attempt['username'] == $username && $attempt['ip'] == $ip) {
+                $use = ($attempt['ip_country'] != $attempt['registration_country']);
+            }
+        }
+
+        return $use;
     }
 }

@@ -63,6 +63,11 @@ class VelocityChecker {
             return true;
         }
 
+        // Username registration country is different
+        if ($counter->isRegistrationCountyDifferent($loginAttempt['username'], $loginAttempt['ip'])) {
+            return true;
+        }
+
         return false;
     }
 }
