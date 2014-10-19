@@ -12,7 +12,7 @@ namespace Kata\AntiBruteForce;
 class Counter {
 
     /**
-     *
+     * Failed login attempts
      *
      * @var array
      */
@@ -25,7 +25,7 @@ class Counter {
      * @param $ip_country IP country
      * @param $username   Username
      */
-    public function logFailedLoginAttempt($ip, $ip_country, $username)
+    public function logFailedLogin($ip, $ip_country, $username)
     {
         $this->failedLoginAttempts[] = array(
             'ip' => $ip,
@@ -36,14 +36,14 @@ class Counter {
     }
 
     /**
-     * Logs a failed login attempt
+     * Logs failed login attempts
      *
      * @param array $failedLogins Failed login attempts
      */
-    public function logFailedLoginAttempts($failedLogins)
+    public function logFailedLogins($failedLogins)
     {
         foreach ($failedLogins as $failedLogin) {
-            $this->logFailedLoginAttempt($failedLogin['ip'], $failedLogin['ip_country'], $failedLogin['username']);
+            $this->logFailedLogin($failedLogin['ip'], $failedLogin['ip_country'], $failedLogin['username']);
         }
     }
 
@@ -98,6 +98,25 @@ class Counter {
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
             if ($attempt['ip_country'] == $ipCountry) {
+                $counter++;
+            }
+        }
+
+        return $counter;
+    }
+
+    /**
+     * Returns number of requests with a username
+     *
+     * @param string $username Username
+     *
+     * @return int Number of requests with a username
+     */
+    public function getFailedLoginCountUsername($username)
+    {
+        $counter = 0;
+        foreach ($this->failedLoginAttempts as $attempt) {
+            if ($attempt['username'] == $username) {
                 $counter++;
             }
         }

@@ -18,37 +18,116 @@ class CounterTest extends \PHPUnit_Framework_TestCase
      *
      * @param integer $ipCount Number of failed login attempts from an IP
      * @param string $ip              Ip address
-     * @param integer $ipRangeCount   Number of failed login attempts from an IP range
-     * @param string $ipRange         Ip address range
-     * @param integer $ipCountryCount Number of failed login attempts from an IP country
-     * @param string $ipCountry       Ip country
-     * @param array $requests         Failed login attempts
+     * @param array $failedLogins     Failed login attempts
      *
-     * @dataProvider getFailedLoginCountDataProvider
+     * @dataProvider getFailedLoginCountDataProviderIp
      */
-    public function testGetFailedLoginCount($ipCount, $ip, $ipRangeCount, $ipRange, $ipCountryCount, $ipCountry, $requests)
+    public function testGetFailedLoginCountIp($ipCount, $ip, $failedLogins)
     {
         $counter = new Counter();
-        $counter->logFailedLoginAttempts($requests);
+        $counter->logFailedLogins($failedLogins);
 
         $this->assertEquals($ipCount, $counter->getFailedLoginCountIp($ip));
+    }
+
+    /**
+     * PHPUnit get failed login count by IP address range test
+     *
+     * @param integer $ipRangeCount   Number of failed login attempts from an IP range
+     * @param string $ipRange         Ip address range
+     * @param array $failedLogins     Failed login attempts
+     *
+     * @dataProvider getFailedLoginCountDataProviderIpRange
+     */
+    public function testGetFailedLoginCountIpRange($ipRangeCount, $ipRange, $failedLogins)
+    {
+        $counter = new Counter();
+        $counter->logFailedLogins($failedLogins);
+
         $this->assertEquals($ipRangeCount, $counter->getFailedLoginCountIpRange($ipRange));
+    }
+
+    /**
+     * PHPUnit get failed login count by IP country test
+     *
+     * @param integer $ipCountryCount Number of failed login attempts from an IP country
+     * @param string $ipCountry       Ip country
+     * @param array $failedLogins     Failed login attempts
+     *
+     * @dataProvider getFailedLoginCountDataProviderIpCountry
+     */
+    public function testGetFailedLoginCountIpCountry($ipCountryCount, $ipCountry, $failedLogins)
+    {
+        $counter = new Counter();
+        $counter->logFailedLogins($failedLogins);
+
         $this->assertEquals($ipCountryCount, $counter->getFailedLoginCountIpCountry($ipCountry));
     }
 
     /**
-     * Data provider for get failed login count
+     * PHPUnit get failed login count by username test
+     *
+     * @param integer $usernameCount Login username count
+     * @param string $username       Login username
+     * @param array $failedLogins    Failed login attempts
+     *
+     * @dataProvider getFailedLoginCountDataProviderLogin
+     */
+    public function testGetFailedLoginCountUsername($usernameCount, $username, $failedLogins)
+    {
+        $counter = new Counter();
+        $counter->logFailedLogins($failedLogins);
+
+        $this->assertEquals($usernameCount, $counter->getFailedLoginCountUsername($username));
+    }
+
+    /**
+     * Data provider for get failed login count ip
      *
      * @return array
      */
-    public function getFailedLoginCountDataProvider()
+    public function getFailedLoginCountDataProviderIp()
     {
         return array(
             array(
                 1,
                 '192.168.0.1',
+                array(
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill'),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill'),
+                )
+            ),
+        );
+    }
+
+    /**
+     * Data provider for get failed login count ip range
+     *
+     * @return array
+     */
+    public function getFailedLoginCountDataProviderIpRange()
+    {
+        return array(
+            array(
                 2,
                 '192.168.0.x',
+                array(
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill'),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill'),
+                )
+            ),
+        );
+    }
+
+    /**
+     * Data provider for get failed login count ip country
+     *
+     * @return array
+     */
+    public function getFailedLoginCountDataProviderIpCountry()
+    {
+        return array(
+            array(
                 '2',
                 'US',
                 array(
@@ -58,4 +137,25 @@ class CounterTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    /**
+     * Data provider for get failed login count login
+     *
+     * @return array
+     */
+    public function getFailedLoginCountDataProviderLogin()
+    {
+        return array(
+            array(
+                '2',
+                'bill',
+                array(
+                    array('ip' => '192.168.0.1', 'ip_country' => 'US', 'username' => 'bill'),
+                    array('ip' => '192.168.0.2', 'ip_country' => 'US', 'username' => 'bill'),
+                )
+            ),
+        );
+    }
+
+
 }

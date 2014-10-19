@@ -11,19 +11,24 @@ namespace Kata\AntiBruteForce;
 class VelocityChecker {
 
     /**
-     * Maximum number of failed login attempts from one IP - after captcha is being displayed
+     * Maximum number of failed login attempts from one IP - after thet captcha is being displayed
      */
-    const MAX_LOGIN_IP = 3;
+    const MAX_FAILED_LOGIN_IP = 3;
 
     /**
-     * Maximum number of failed login attempts from one IP range - after captcha is being displayed
+     * Maximum number of failed login attempts from one IP range - after thet captcha is being displayed
      */
-    const MAX_LOGIN_RANGE = 500;
+    const MAX_FAILED_LOGIN_RANGE = 500;
 
     /**
-     * Maximum number of failed login attempts from one IP country - after captcha is being displayed
+     * Maximum number of failed login attempts from one IP country - after that captcha is being displayed
      */
-    const MAX_LOGIN_COUNTRY = 1000;
+    const MAX_FAILED_LOGIN_COUNTRY = 1000;
+
+    /**
+     * Maximum number of failed login attempts with one username - after that captcha is being displayed
+     */
+    const MAX_FAILED_LOGIN_USERNAME = 3;
 
     /**
      * Returns true if we use captcha; false otherwise
@@ -36,7 +41,7 @@ class VelocityChecker {
     public function useCaptcha($loginAttempt, Counter $counter)
     {
         // IP
-        if ($counter->getFailedLoginCountIp($loginAttempt['ip']) >= self::MAX_LOGIN_IP) {
+        if ($counter->getFailedLoginCountIp($loginAttempt['ip']) >= self::MAX_FAILED_LOGIN_IP) {
             return true;
         }
 
@@ -44,12 +49,17 @@ class VelocityChecker {
         $ipArr = explode('.', $loginAttempt['ip']);
         $ipArr[3] = 'x';
         $ipX = implode('.', $ipArr);
-        if ($counter->getFailedLoginCountIpRange($ipX) >= self::MAX_LOGIN_RANGE) {
+        if ($counter->getFailedLoginCountIpRange($ipX) >= self::MAX_FAILED_LOGIN_RANGE) {
             return true;
         }
 
         // IP country
-        if ($counter->getFailedLoginCountIpCountry($loginAttempt['ip_country']) >= self::MAX_LOGIN_COUNTRY) {
+        if ($counter->getFailedLoginCountIpCountry($loginAttempt['ip_country']) >= self::MAX_FAILED_LOGIN_COUNTRY) {
+            return true;
+        }
+
+        // Login username
+        if ($counter->getFailedLoginCountUsername($loginAttempt['username']) >= self::MAX_FAILED_LOGIN_USERNAME) {
             return true;
         }
 
