@@ -12,6 +12,11 @@ namespace Kata\AntiBruteForce;
 class Counter {
 
     /**
+     * Time To Live
+     */
+    const TTL = 3600;
+
+    /**
      * Failed login attempts
      *
      * @var array
@@ -26,8 +31,9 @@ class Counter {
      * @param string $username            Username
      * @param string $registrationCountry Username registration country
      * @param bool $isCaptchaActive       Is captcha active
+     * @param integer $timeStamp          Timestamp
      */
-    public function logFailedLogin($ip, $ipCountry, $username, $registrationCountry, $isCaptchaActive)
+    public function logFailedLogin($ip, $ipCountry, $username, $registrationCountry, $isCaptchaActive, $timeStamp = null)
     {
         // Log failed login attempt
         $this->failedLoginAttempts[] = array(
@@ -35,7 +41,7 @@ class Counter {
             'ip_country' => $ipCountry,
             'username' => $username,
             'registration_country' => $registrationCountry,
-            'ts' => time(),
+            'ts' => ((null === $timeStamp) ? time() : $timeStamp),
             'is_captcha_active' => $isCaptchaActive,
         );
     }
@@ -61,15 +67,20 @@ class Counter {
     /**
      * Returns number of requests from an IP
      *
-     * @param string $ip IP address
+     * @param string $ip         IP address
+     * @param integer $checkWhen Timestamp: when to check count
      *
      * @return int Number of requests from an IP
      */
-    public function getFailedLoginCountIp($ip)
+    public function getFailedLoginCountIp($ip, $checkWhen = null)
     {
+        if (null === $checkWhen) {
+            $checkWhen = time();
+        }
+
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
-            if ($attempt['ip'] == $ip) {
+            if (($attempt['ip'] == $ip) && ($attempt['ts'] >= ($checkWhen - self::TTL))) {
                 $counter++;
             }
         }
@@ -81,18 +92,23 @@ class Counter {
      * Returns number of requests from an IP range
      *
      * @param string $ipRange IP address
+     * @param integer $checkWhen Timestamp: when to check count
      *
      * @return int Number of requests from an IP range
      */
-    public function getFailedLoginCountIpRange($ipRange)
+    public function getFailedLoginCountIpRange($ipRange, $checkWhen = null)
     {
+        if (null === $checkWhen) {
+            $checkWhen = time();
+        }
+
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
             $ipArr = explode('.', $attempt['ip']);
             $ipArr[3] = 'x';
             $ipX = implode('.', $ipArr);
 
-            if ($ipRange == $ipX && !$attempt['is_captcha_active']) {
+            if ($ipRange == $ipX && !$attempt['is_captcha_active'] && ($attempt['ts'] >= ($checkWhen - self::TTL))) {
                 $counter++;
             }
         }
@@ -104,14 +120,19 @@ class Counter {
      * Returns number of requests from an IP country
      *
      * @param string $ipCountry IP country
+     * @param integer $checkWhen Timestamp: when to check count
      *
      * @return int Number of requests from an IP
      */
-    public function getFailedLoginCountIpCountry($ipCountry)
+    public function getFailedLoginCountIpCountry($ipCountry, $checkWhen = null)
     {
+        if (null === $checkWhen) {
+            $checkWhen = time();
+        }
+
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
-            if ($attempt['ip_country'] == $ipCountry && !$attempt['is_captcha_active']) {
+            if ($attempt['ip_country'] == $ipCountry && !$attempt['is_captcha_active'] && ($attempt['ts'] >= ($checkWhen - self::TTL))) {
                 $counter++;
             }
         }
@@ -123,14 +144,19 @@ class Counter {
      * Returns number of requests with a username
      *
      * @param string $username Username
+     * @param integer $checkWhen Timestamp: when to check count
      *
      * @return int Number of requests with a username
      */
-    public function getFailedLoginCountUsername($username)
+    public function getFailedLoginCountUsername($username, $checkWhen = null)
     {
+        if (null === $checkWhen) {
+            $checkWhen = time();
+        }
+
         $counter = 0;
         foreach ($this->failedLoginAttempts as $attempt) {
-            if ($attempt['username'] == $username && !$attempt['is_captcha_active']) {
+            if ($attempt['username'] == $username && !$attempt['is_captcha_active'] && ($attempt['ts'] >= ($checkWhen - self::TTL))) {
                 $counter++;
             }
         }

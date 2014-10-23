@@ -118,6 +118,29 @@ class CounterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Counters have 3600 sec TTL
+     */
+    public function testTimestamp()
+    {
+        $counter = new Counter();
+
+        // A failed login attempt at 0 sec timestamp
+        $counter->logFailedLogin('192.168.0.1', 'US', 'bill', 'US', false, 0);
+
+        // Check one hour and one sec later. Failed login is older than one hour, and expired.
+        $this->assertEquals(0, $counter->getFailedLoginCountIp('192.168.0.1', 3601));
+        $this->assertEquals(0, $counter->getFailedLoginCountIpRange('192.168.0.x', 3601));
+        $this->assertEquals(0, $counter->getFailedLoginCountIpCountry('US', 3601));
+        $this->assertEquals(0, $counter->getFailedLoginCountUsername('bill', 3601));
+
+        // Check exactly one hour later. Failed login is valid
+        $this->assertEquals(1, $counter->getFailedLoginCountIp('192.168.0.1', 3600));
+        $this->assertEquals(1, $counter->getFailedLoginCountIpRange('192.168.0.x', 3600));
+        $this->assertEquals(1, $counter->getFailedLoginCountIpCountry('US', 3600));
+        $this->assertEquals(1, $counter->getFailedLoginCountUsername('bill', 3600));
+    }
+
+    /**
      * Data provider for get failed login count ip
      *
      * @return array
