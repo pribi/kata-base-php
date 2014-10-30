@@ -6,7 +6,10 @@ define('PRODUCTION_DATABASE_FILE', './product.db');
 require_once("ProductDao.php");
 require_once("Product.php");
 try {
-    $productDao = new ProductDao();
+    $dsn = sprintf("sqlite:%s", PRODUCTION_DATABASE_FILE);
+    $pdo = new PDO($dsn);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $productDao = new ProductDao($pdo);
 
 //- add my product
     $product = new Product();

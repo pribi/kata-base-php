@@ -7,6 +7,12 @@ class ProductDao {
      * @var \PDO Database resource.
      */
     private $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->pdo = $pdo;
+    }
+
     /**
      * Get product by EAN.
      *
@@ -139,12 +145,6 @@ WHERE id = :id
      */
     private function getPdo()
     {
-        if (!($this->pdo !== null && $this->pdo instanceof \PDO))
-        {
-            $dsn = sprintf("sqlite:%s", PRODUCTION_DATABASE_FILE);
-            $this->pdo = new PDO($dsn);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
         return $this->pdo;
     }
     /**
