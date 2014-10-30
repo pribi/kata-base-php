@@ -108,12 +108,116 @@ class ProductDAOTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCreate()
+    /**
+     * @param $result
+     * @param $products
+     * @param $createProducts
+     *
+     * @dataProvider getCreateDataProvider
+     */
+    public function testCreate($return, $result, $products, $createProducts)
     {
+        if (!empty($products)) {
+            foreach ($products as $product) {
+                $stmt = $this->pdo->prepare(
+                    "INSERT INTO product (id, ean, name) VALUES (".$product['id'].", '".$product['ean']."', '".$product['name']."');"
+                );
+                $stmt->execute();
+            }
+        }
+
+        if (!empty($createProducts)) {
+            foreach ($createProducts as $createProduct) {
+                $productDao = new ProductDao($this->pdo);
+                $product = new Product();
+                $product->id = $createProduct['id'];
+                $product->ean = $createProduct['ean'];
+                $product->name = $createProduct['name'];
+                $this->assertEquals($return, $productDao->create($product));
+            }
+        }
+
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM product;"
+        );
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $this->assertEquals($result, $rows);
     }
 
-    public function testModify()
+    public function getCreateDataProvider()
     {
+        return array(
+            array(
+                null,
+                array(),
+                '',
+                ''
+            ),
+            array(
+                true,
+                array(array(0 => '1', 1 => '1', 2 => '1', 'id' => '1', 'ean' => '1', 'name' => '1')),
+                array(),
+                array(array('id' => 1, 'ean' => '1', 'name' => '1'))
+            ),
+            array(
+                false,
+                array(array(0 => '1', 1 => '1', 2 => '1', 'id' => '1', 'ean' => '1', 'name' => '1')),
+                array(array('id' => 1, 'ean' => '1', 'name' => '1')),
+                array(array('id' => 1, 'ean' => '1', 'name' => '1'))
+            ),
+        );
+    }
+
+    /**
+     * @param $result
+     * @param $products
+     * @param $createProducts
+     *
+     * @dataProvider modifyDataProvider
+     */
+    public function testModify($return, $result, $products, $createProducts)
+    {
+        if (!empty($products)) {
+            foreach ($products as $product) {
+                $stmt = $this->pdo->prepare(
+                    "INSERT INTO product (id, ean, name) VALUES (".$product['id'].", '".$product['ean']."', '".$product['name']."');"
+                );
+                $stmt->execute();
+            }
+        }
+
+        if (!empty($createProducts)) {
+            foreach ($createProducts as $createProduct) {
+                $productDao = new ProductDao($this->pdo);
+                $product = new Product();
+                $product->id = $createProduct['id'];
+                $product->ean = $createProduct['ean'];
+                $product->name = $createProduct['name'];
+                $this->assertEquals($return, $productDao->modify($product));
+            }
+        }
+
+        $stmt = $this->pdo->prepare(
+            "SELECT * FROM product;"
+        );
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $this->assertEquals($result, $rows);
+    }
+
+    public function modifyDataProvider()
+    {
+        return array(
+            array(
+                null,
+                array(),
+                '',
+                ''
+            ),
+        );
     }
 
     public function testDelete()
