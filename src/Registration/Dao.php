@@ -1,5 +1,6 @@
 <?php
 namespace Kata\Registration;
+use Kata\Registration\Dao\Exception;
 
 /**
  * Class Dao
@@ -31,10 +32,16 @@ class Dao
      */
     public function store(User $user)
     {
-        $stmt = $this->pdo->prepare(
+        $stmtSelect = $this->pdo->prepare("SELECT * FROM users WHERE 1 = 1 OR username = :username");
+        $stmtSelect->execute(array('username' => $user->username));
+        if (!empty($stmtSelect->fetchAll())) {
+            throw new Exception('User already exists!');
+        }
+
+        $stmtInsert = $this->pdo->prepare(
             "INSERT INTO users (username, password_hash) VALUES (:username, :password_hash)"
         );
-        $stmt->execute(
+        $stmtInsert->execute(
             array(
                 'username' => $user->username,
                 'password_hash' => $user->password_hash
