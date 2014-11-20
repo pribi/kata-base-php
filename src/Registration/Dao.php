@@ -28,7 +28,8 @@ class Dao
     /**
      * Stores a user
      *
-     * @param User $user
+     * @param User $user User object
+     * @throws Exception
      */
     public function store(User $user)
     {
