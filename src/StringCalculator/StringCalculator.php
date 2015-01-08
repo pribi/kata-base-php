@@ -26,6 +26,8 @@ class StringCalculator
 
         $summary = 0;
 
+        $numberString = str_replace("\n", self::NUMBER_DELIMITER, $numberString);
+
         $numberArray = explode(self::NUMBER_DELIMITER, $numberString);
         if (!empty($numberArray)) {
             foreach ($numberArray as $number) {
