@@ -7,7 +7,7 @@ namespace Kata\StringCalculator;
  */
 class StringCalculator
 {
-    const NUMBER_DELIMITER = ',';
+    const DEFAULT_NUMBER_DELIMITER = ',';
 
     /**
      * Returns summary of numbers in a string
@@ -26,9 +26,9 @@ class StringCalculator
 
         $summary = 0;
 
-        $numberString = str_replace("\n", self::NUMBER_DELIMITER, $numberString);
+        $numberString = str_replace("\n", self::DEFAULT_NUMBER_DELIMITER, $numberString);
 
-        $numberArray = explode(self::NUMBER_DELIMITER, $numberString);
+        $numberArray = explode(self::DEFAULT_NUMBER_DELIMITER, $numberString);
         if (!empty($numberArray)) {
             foreach ($numberArray as $number) {
                 $summary += intval($number);
@@ -46,6 +46,23 @@ class StringCalculator
      * @return string
      */
     public function findDelimiter($string) {
-        return self::NUMBER_DELIMITER;
+        $stringParts = explode("\n", $string);
+
+        // Two parts
+        if (count($stringParts) == 2) {
+            if (substr($stringParts[0], 0, 2) == "//") {
+                // - stringParts[0]: delimiter definition
+                // - stringParts[1]: number
+                return substr($stringParts[0], 2);
+            }
+            else {
+                // No delimiter definition found in first row
+                return self::DEFAULT_NUMBER_DELIMITER;
+            }
+        }
+        else {
+            // Not exactly two rows, no delimiter definition possible
+            return self::DEFAULT_NUMBER_DELIMITER;
+        }
     }
 }
