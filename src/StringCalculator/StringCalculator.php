@@ -7,6 +7,7 @@ namespace Kata\StringCalculator;
  */
 class StringCalculator
 {
+    // Default delimiter character
     const DEFAULT_NUMBER_DELIMITER = ',';
 
     /**
@@ -26,9 +27,11 @@ class StringCalculator
 
         $summary = 0;
 
+        // Find delimiter
         $delimiter = $this->findDelimiter($numberString);
 
         if ($delimiter !== self::DEFAULT_NUMBER_DELIMITER) {
+            // Delimiter is defined, skip delimiter definition from string numbers
             $numberString = explode("\n", $numberString);
             $numberString = $numberString[1];
         }
@@ -36,6 +39,7 @@ class StringCalculator
             $numberString = str_replace("\n", $delimiter, $numberString);
         }
 
+        // Calculate summary
         $numberArray = explode($delimiter, $numberString);
         if (!empty($numberArray)) {
             foreach ($numberArray as $number) {
@@ -47,37 +51,36 @@ class StringCalculator
     }
 
     /**
-     * Returns delimiter if found in string. If delimiter not found then the default delimiter \n is returned
+     * Returns delimiter if found in string. If delimiter is not found then the default delimiter is returned
      *
      * @param $string
      *
      * @return string
      */
     public function findDelimiter($string) {
+        // Explode string to find any delimiter
         $stringParts = explode("\n", $string);
 
-        // Two parts
         if (count($stringParts) == 2) {
+            // Two parts
             if (substr($stringParts[0], 0, 2) == "//") {
-                // - stringParts[0]: delimiter definition
-                // - stringParts[1]: number
+                // - first part: possible delimiter definition
+                // - second part: string numbers
                 $delimiter = substr($stringParts[0], 2);
                 if (false === $delimiter) {
-                    // Empty delimiter eg. //\n
+                    // Empty character is not a valid delimiter eg. //\n
                     return self::DEFAULT_NUMBER_DELIMITER;
-                }
-                else {
-                    // Delimiter
+                } else {
+                    // Delimiter can be urlencoded
                     return urldecode($delimiter);
                 }
-            }
-            else {
+            } else {
                 // No delimiter definition found in first row
                 return self::DEFAULT_NUMBER_DELIMITER;
             }
         }
         else {
-            // Not exactly two rows, no delimiter definition possible
+            // Not exactly two parts, no delimiter definition
             return self::DEFAULT_NUMBER_DELIMITER;
         }
     }
