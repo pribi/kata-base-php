@@ -79,6 +79,64 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * PHPUnit add with negative number will throw exception
+     *
+     * @param string $numbers  Numbers in string format
+     *
+     * @dataProvider negativeNumberDataProvider
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage negatives not allowed -1
+     */
+    public function testAddWithNegativeNumberWillThrowException($numbers)
+    {
+        $stringCalculator = new StringCalculator();
+        $stringCalculator->add($numbers);
+    }
+
+    /**
+     * Data provider for add with negative number test
+     *
+     * @return array
+     */
+    public function negativeNumberDataProvider()
+    {
+        return array(
+            array("-1"),
+            array("1,-1,1"),
+        );
+    }
+
+    /**
+     * PHPUnit add with negative numbers will throw exception
+     *
+     * @param string $numbers  Numbers in string format
+     *
+     * @dataProvider negativeNumbersDataProvider
+     *
+     * @expectedException \Exception
+     * @expectedExceptionMessage negatives not allowed -1 -2
+     */
+    public function testAddWithNegativeNumbersWillThrowException($numbers)
+    {
+        $stringCalculator = new StringCalculator();
+        $stringCalculator->add($numbers);
+    }
+
+    /**
+     * Data provider for add with negative number test
+     *
+     * @return array
+     */
+    public function negativeNumbersDataProvider()
+    {
+        return array(
+            array("-1,-2"),
+            array("1,-1,2,-2"),
+        );
+    }
+
+    /**
      * PHPUnit find delimiter test
      *
      * @param string $expectedDelimiter Expected delimiter

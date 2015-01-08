@@ -1,5 +1,6 @@
 <?php
 namespace Kata\StringCalculator;
+use Kata\Registration\Dao\Exception;
 
 /**
  * Class StringCalculator
@@ -26,6 +27,7 @@ class StringCalculator
         }
 
         $summary = 0;
+        $negativeNumbers = "";
 
         // Find delimiter
         $delimiter = $this->findDelimiter($numberString);
@@ -43,8 +45,18 @@ class StringCalculator
         $numberArray = explode($delimiter, $numberString);
         if (!empty($numberArray)) {
             foreach ($numberArray as $number) {
-                $summary += intval($number);
+                $intVal = intval($number);
+
+                // Negative number found
+                if ($intVal < 0) {
+                    $negativeNumbers .= " " . $intVal;
+                }
+                $summary += $intVal;
             }
+        }
+
+        if ($negativeNumbers !== "") {
+            throw new \Exception("negatives not allowed" . $negativeNumbers);
         }
 
         return $summary;
