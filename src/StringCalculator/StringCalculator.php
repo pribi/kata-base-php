@@ -11,6 +11,9 @@ class StringCalculator
     // Default delimiter character
     const DEFAULT_NUMBER_DELIMITER = ',';
 
+    // Maximum allowed number
+    const MAXIMUM_ALLOWED_NUMBER = 1000;
+
     /**
      * Returns summary of numbers in a string
      *
@@ -47,7 +50,7 @@ class StringCalculator
             foreach ($numberArray as $number) {
                 $intVal = intval($number);
 
-                if ($intVal > 1000) {
+                if ($intVal > self::MAXIMUM_ALLOWED_NUMBER) {
                     continue;
                 }
 
