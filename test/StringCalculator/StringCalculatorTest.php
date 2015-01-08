@@ -37,7 +37,8 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(5, "1,,4"),
             array(42, "1,2,3,4,5,6,7,8,6"),
             array(6, "1\n2,3"),
-            array(6, "1,2,\n,3")
+            array(6, "1,2,\n,3"),
+//            array(3, "//;\n1;2")
         );
     }
 
@@ -70,6 +71,27 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(0),
             array(1),
             array(array()),
+        );
+    }
+
+    /**
+     * PHPUnit find delimiter test
+     *
+     * @param string $expectedDelimiter Expected delimiter
+     * @param string $string            String
+     *
+     * @dataProvider findDelimiterDataProvider
+     */
+    public function testFindDelimiter($expectedDelimiter, $string)
+    {
+        $stringCalculator = new StringCalculator();
+        $this->assertSame($expectedDelimiter, $stringCalculator->findDelimiter($string));
+    }
+
+    public function findDelimiterDataProvider()
+    {
+        return array(
+            array(",", ""),
         );
     }
 }

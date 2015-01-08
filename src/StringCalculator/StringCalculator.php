@@ -37,4 +37,15 @@ class StringCalculator
 
         return $summary;
     }
+
+    /**
+     * Returns delimiter if found in string. If delimiter not found then the default delimiter \n is returned
+     *
+     * @param $string
+     *
+     * @return string
+     */
+    public function findDelimiter($string) {
+        return self::NUMBER_DELIMITER;
+    }
 }
