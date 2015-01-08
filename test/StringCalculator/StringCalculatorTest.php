@@ -42,6 +42,7 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(3, "//::\n1::2"),
             array(3, "//\n1,2"),
             array(4, "//:\n1:2\n3"),
+            array(10, "//%0A\n1\n2\n3\n4"),
         );
     }
 
@@ -100,6 +101,7 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(";", "//;\n1;2"),
             array("::", "//::\n1::2"),
             array(",", "//\n12"),
+            array("\n", "//%0A\n12"),
         );
     }
 }

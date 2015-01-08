@@ -68,7 +68,7 @@ class StringCalculator
                 }
                 else {
                     // Delimiter
-                    return $delimiter;
+                    return urldecode($delimiter);
                 }
             }
             else {
