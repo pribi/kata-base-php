@@ -28,9 +28,15 @@ class StringCalculator
 
         $delimiter = $this->findDelimiter($numberString);
 
-        $numberString = str_replace("\n", self::DEFAULT_NUMBER_DELIMITER, $numberString);
+        if ($delimiter !== self::DEFAULT_NUMBER_DELIMITER) {
+            $numberString = explode("\n", $numberString);
+            $numberString = $numberString[1];
+        }
+        else {
+            $numberString = str_replace("\n", $delimiter, $numberString);
+        }
 
-        $numberArray = explode(self::DEFAULT_NUMBER_DELIMITER, $numberString);
+        $numberArray = explode($delimiter, $numberString);
         if (!empty($numberArray)) {
             foreach ($numberArray as $number) {
                 $summary += intval($number);
