@@ -26,6 +26,8 @@ class StringCalculator
 
         $summary = 0;
 
+        $delimiter = $this->findDelimiter($numberString);
+
         $numberString = str_replace("\n", self::DEFAULT_NUMBER_DELIMITER, $numberString);
 
         $numberArray = explode(self::DEFAULT_NUMBER_DELIMITER, $numberString);
@@ -53,7 +55,15 @@ class StringCalculator
             if (substr($stringParts[0], 0, 2) == "//") {
                 // - stringParts[0]: delimiter definition
                 // - stringParts[1]: number
-                return substr($stringParts[0], 2);
+                $delimiter = substr($stringParts[0], 2);
+                if (false === $delimiter) {
+                    // Empty delimiter eg. //\n
+                    return self::DEFAULT_NUMBER_DELIMITER;
+                }
+                else {
+                    // Delimiter
+                    return $delimiter;
+                }
             }
             else {
                 // No delimiter definition found in first row
