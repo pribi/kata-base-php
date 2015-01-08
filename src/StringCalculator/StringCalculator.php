@@ -47,6 +47,10 @@ class StringCalculator
             foreach ($numberArray as $number) {
                 $intVal = intval($number);
 
+                if ($intVal > 1000) {
+                    continue;
+                }
+
                 // Negative number found
                 if ($intVal < 0) {
                     $negativeNumbers .= " " . $intVal;
@@ -55,6 +59,7 @@ class StringCalculator
             }
         }
 
+        // Negative numbers found
         if ($negativeNumbers !== "") {
             throw new \Exception("negatives not allowed" . $negativeNumbers);
         }

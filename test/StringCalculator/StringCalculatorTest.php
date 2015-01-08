@@ -43,6 +43,12 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(3, "//\n1,2"),
             array(4, "//:\n1:2\n3"),
             array(10, "//%0A\n1\n2\n3\n4"),
+            array(2, "2,1001"),
+            array(2, "1001,2"),
+            array(1002, "2,1000"),
+            array(1002, "1000,2"),
+            array(2, "2,3451151"),
+            array(2, "5123523,2"),
         );
     }
 
