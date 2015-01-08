@@ -37,4 +37,36 @@ class StringCalculatorTest extends \PHPUnit_Framework_TestCase
             array(5, "1,,4"),
         );
     }
+
+    /**
+     * PHPUnit add with invalid input will throw exception
+     *
+     * @param string $numbers  Numbers in string format
+     *
+     * @dataProvider invalidInputDataProvider
+     *
+     * @expectedException \Exception
+     */
+    public function testAddWithInvalidInputWillThrowException($numbers)
+    {
+        $stringCalculator = new StringCalculator();
+        $stringCalculator->add($numbers);
+    }
+
+    /**
+     * Data provider for add with invalid input test
+     *
+     * @return array
+     */
+    public function invalidInputDataProvider()
+    {
+        return array(
+            array(null),
+            array(false),
+            array(true),
+            array(0),
+            array(1),
+            array(array()),
+        );
+    }
 }
