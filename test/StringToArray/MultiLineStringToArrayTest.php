@@ -62,7 +62,7 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
     public function testStringToArray($expectedReturnValue, $string)
     {
         $multiLineStringToArray = new MultiLineStringToArray();
-        $this->assertSame($expectedReturnValue, $multiLineStringToArray->stringToArray($string));
+        $this->assertEquals($expectedReturnValue, $multiLineStringToArray->stringToArray($string));
     }
 
     /**
@@ -102,6 +102,16 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
                     array('gyors', 'fo utca', '9')
                 ),
                 "luxembourg,kennedy,44\nbudapest,expo ter,5-7\ngyors,fo utca,9"
+            ),
+            array(
+                (object)array(
+                    'labels' => array('Name', 'Email', 'Phone'),
+                    'data' => array(
+                        array('Mark', 'marc@be.com', '998'),
+                        array('Noemi', 'noemi@ac.co.uk', '888')
+                    )
+                ),
+                "#useFirstLineAsLabels\nName,Email,Phone\nMark,marc@be.com,998\nNoemi,noemi@ac.co.uk,888"
             )
         );
     }

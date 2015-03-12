@@ -15,3 +15,19 @@ test with not string imput
     OK gyors,fo utca,9"
     OK test with empty line
     OK test with empty array item
+write integration test
+check backward compatible
+mocking where possible
+
+    OK 3. first line is #useFirstLineAsLabels
+    OK "#useFirstLineAsLabels
+    OK Name,Email,Phone
+    OK Mark,marc@be.com,998
+    OK Noemi,noemi@ac.co.uk,888"
+    OK (object)array(
+    OK 'labels' => array('Name', 'Email', 'Phone'),
+    OK 'data' => array(array('Mark', 'marc@be'. 'com,998'), array('Noemi', 'noemi@ac.co.uk', '888'))
+
+test #useFirstLineAsLabels, but only this line with label and that's it
+test #useFirstLineAsLabels, but only one line as label
+test #useFirstLineAsLabels, but with empty labels

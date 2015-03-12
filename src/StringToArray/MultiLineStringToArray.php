@@ -30,14 +30,32 @@ class MultiLineStringToArray extends StringToArray
      */
     public function stringToArray($string)
     {
-        $returnValue = array();
-
         $lines = $this->splitToLines($string);
-        foreach ($lines as $line) {
-            $returnValue[] = parent::stringToArray($line);
+
+        if ($lines[0] === '#useFirstLineAsLabels') {
+            $returnValue = new \StdClass();
+            $returnValue->labels = parent::stringToArray($lines[1]);
+            $data = array();
+
+            $num = 0;
+            foreach ($lines as $line) {
+                if ($num++ < 2) {
+                    continue;
+                }
+
+                $data[] = parent::stringToArray($line);
+            }
+
+            $returnValue->data = $data;
+        }
+        else {
+            $returnValue = array();
+
+            foreach ($lines as $line) {
+                $returnValue[] = parent::stringToArray($line);
+            }
         }
 
         return $returnValue;
     }
-
 }
