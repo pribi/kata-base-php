@@ -1,8 +1,17 @@
-OK 1. One line, only string. Explode by commas, returns array
-OK "a,b,c"
-OK "100,982,444,990,1"
-OK "Mark,Anthony,marka@lib.de"
+    OK 1. One line, only string. Explode by commas, returns array
+    OK "a,b,c"
+    OK "100,982,444,990,1"
+    OK "Mark,Anthony,marka@lib.de"
 
-OK test with empty string
-OK test with empty array item
+    OK test with empty string
+    OK test with empty array item
 test with not string imput
+
+    OK 2. multi line string input
+    OK "211,22,35
+    OK 10,20,33"
+    OK "luxembourg,kennedy,44
+    OK budapest,expo ter,5-7
+    OK gyors,fo utca,9"
+    OK test with empty line
+    OK test with empty array item
