@@ -32,17 +32,14 @@ class MultiLineStringToArray extends StringToArray
     {
         $lines = $this->splitToLines($string);
 
-        if ($lines[0] === '#useFirstLineAsLabels') {
+        if ($this->checkFirstLineContainsLabel($string)) {
             $returnValue = new \StdClass();
             $returnValue->labels = parent::stringToArray($lines[1]);
+
+            unset($lines[0]);
+            unset($lines[1]);
             $data = array();
-
-            $num = 0;
             foreach ($lines as $line) {
-                if ($num++ < 2) {
-                    continue;
-                }
-
                 $data[] = parent::stringToArray($line);
             }
 
@@ -57,5 +54,35 @@ class MultiLineStringToArray extends StringToArray
         }
 
         return $returnValue;
+    }
+
+    /**
+     * Check if the string in the first line contains a label definition
+     * - returns true if it contains
+     * - returns false
+     *
+     * @param string $string String to check
+     *
+     * @return bool
+     */
+    public function checkFirstLineContainsLabel($string)
+    {
+        $lines = $this->splitToLines($string);
+
+        // Less than 2 lines, not possible label definition
+        if (count($lines) < 2) {
+            return false;
+        }
+
+        if ($lines[0] !== '#useFirstLineAsLabels') {
+            return false;
+        }
+
+        // Empty labels are no labels
+        if (empty($lines[1])) {
+            return false;
+        }
+
+        return true;
     }
 }

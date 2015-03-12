@@ -115,4 +115,34 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
             )
         );
     }
+
+    /**
+     * Test for checking first line contains a label
+     *
+     * @param bool $expectedReturnValue
+     * @param string $string
+     *
+     * @dataProvider checkFirstLineContainsLabelDataProvider
+     */
+    public function testCheckFirstLineContainsLabel($expectedReturnValue, $string)
+    {
+        $multiLineStringToArray = new MultiLineStringToArray();
+        $this->assertSame($expectedReturnValue, $multiLineStringToArray->checkFirstLineContainsLabel($string));
+    }
+
+    /**
+     * Data provider for check first line contains label test
+     *
+     * @return array
+     */
+    public function checkFirstLineContainsLabelDataProvider()
+    {
+        return array(
+            array(false, ""),
+            array(false, "\n#useFirstLineAsLabels"),
+            array(false, "#useFirstLineAsLabels\n"),
+            array(true, "#useFirstLineAsLabels\nasdf\n"),
+            array(true, "#useFirstLineAsLabels\nlabel1\ndata1"),
+        );
+    }
 }
