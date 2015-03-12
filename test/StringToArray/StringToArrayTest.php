@@ -31,6 +31,8 @@ class StringToArrayTest extends \PHPUnit_framework_TestCase
     public function stringToArrayDataProvider()
     {
         return  array(
+            array(array(''), ''),
+            array(array('', '', 'asdf'), ',,asdf'),
             array(array('a', 'b', 'c'), "a,b,c"),
             array(array('100', '982', '444', '990', '1'), "100,982,444,990,1"),
             array(array('Mark', 'Anthony', 'marka@lib.de'), "Mark,Anthony,marka@lib.de")

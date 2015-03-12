@@ -3,4 +3,6 @@ OK "a,b,c"
 OK "100,982,444,990,1"
 OK "Mark,Anthony,marka@lib.de"
 
+OK test with empty string
+OK test with empty array item
 test with not string imput
