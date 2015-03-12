@@ -13,14 +13,15 @@ class StringToArrayTest extends \PHPUnit_framework_TestCase
      *
      * @param array  $expectedReturnValue Expected return value
      * @param string $string              String
+     * @param string $columnDelimiter     Column delimiter
      *
      * @dataProvider stringToArrayDataProvider
      *
      */
-    public function testStringToArray($expectedReturnValue, $string)
+    public function testStringToArray($expectedReturnValue, $string, $columnDelimiter = ',')
     {
         $stringToArray = new StringToArray();
-        $this->assertSame($expectedReturnValue, $stringToArray->stringToArray($string));
+        $this->assertSame($expectedReturnValue, $stringToArray->stringToArray($string, $columnDelimiter));
     }
 
     /**
@@ -35,7 +36,9 @@ class StringToArrayTest extends \PHPUnit_framework_TestCase
             array(array('', '', 'asdf'), ',,asdf'),
             array(array('a', 'b', 'c'), "a,b,c"),
             array(array('100', '982', '444', '990', '1'), "100,982,444,990,1"),
-            array(array('Mark', 'Anthony', 'marka@lib.de'), "Mark,Anthony,marka@lib.de")
+            array(array('Mark', 'Anthony', 'marka@lib.de'), "Mark,Anthony,marka@lib.de"),
+            array(array('', '', 'asdf'), '::asdf', ':'),
+            array(array('a', 'b', 'c'), "a;b;c", ';'),
         );
     }
 }

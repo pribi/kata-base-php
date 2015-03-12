@@ -25,10 +25,11 @@ class MultiLineStringToArray extends StringToArray
      * Explodes string by new line (\n) and returns a two dimensional array
      *
      * @param string $string String to convert to array
+     * @param string $columnDelimiter     Column delimiter
      *
      * @return array
      */
-    public function stringToArray($string)
+    public function stringToArray($string, $columnDelimiter = ',')
     {
         $lines = $this->splitToLines($string);
 
@@ -40,7 +41,7 @@ class MultiLineStringToArray extends StringToArray
             unset($lines[1]);
             $data = array();
             foreach ($lines as $line) {
-                $data[] = parent::stringToArray($line);
+                $data[] = parent::stringToArray($line, $columnDelimiter);
             }
 
             $returnValue->data = $data;
@@ -49,7 +50,7 @@ class MultiLineStringToArray extends StringToArray
             $returnValue = array();
 
             foreach ($lines as $line) {
-                $returnValue[] = parent::stringToArray($line);
+                $returnValue[] = parent::stringToArray($line, $columnDelimiter);
             }
         }
 

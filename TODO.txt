@@ -31,3 +31,6 @@ mocking where possible
 test #useFirstLineAsLabels, but only this line with label and that's it
 test #useFirstLineAsLabels, but only one line as label
 test #useFirstLineAsLabels, but with empty labels
+
+4. first line starts with #
+refact: create header parser class

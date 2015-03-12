@@ -55,14 +55,15 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
      *
      * @param array  $expectedReturnValue Expected return value
      * @param string $string              String
+     * @param string $columnDelimiter     Column delimiter
      *
      * @dataProvider stringToArrayDataProvider
      *
      */
-    public function testStringToArray($expectedReturnValue, $string)
+    public function testStringToArray($expectedReturnValue, $string, $columnDelimiter = ',')
     {
         $multiLineStringToArray = new MultiLineStringToArray();
-        $this->assertEquals($expectedReturnValue, $multiLineStringToArray->stringToArray($string));
+        $this->assertEquals($expectedReturnValue, $multiLineStringToArray->stringToArray($string, $columnDelimiter));
     }
 
     /**
@@ -94,6 +95,14 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
                     array('10', '20', '33')
                 ),
                 "211,22,35\n10,20,33"
+            ),
+            array(
+                array(
+                    array('211', '22', '35'),
+                    array('10', '20', '33')
+                ),
+                "211:22:35\n10:20:33",
+                ':'
             ),
             array(
                 array(
