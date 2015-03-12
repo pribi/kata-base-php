@@ -21,8 +21,7 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
     public function testStringToArray($expectedReturnValue, $string, $columnDelimiter = ',')
     {
         $headerParser = new HeaderParser();
-        $multiLineStringToArray = new MultiLineStringToArray();
-        $multiLineStringToArray->setHeaderParser($headerParser);
+        $multiLineStringToArray = new MultiLineStringToArray($headerParser);
         $this->assertEquals($expectedReturnValue, $multiLineStringToArray->stringToArray($string, $columnDelimiter));
     }
 

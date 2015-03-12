@@ -18,7 +18,8 @@ class MultiLineStringToArray extends StringToArray
      *
      * @param $headerParser
      */
-    public function setHeaderParser($headerParser) {
+    public function __construct($headerParser)
+    {
         $this->headerParser = $headerParser;
     }
 
