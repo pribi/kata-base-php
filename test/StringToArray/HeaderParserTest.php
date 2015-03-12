@@ -39,6 +39,37 @@ class HeaderParserTest extends \PHPUnit_framework_TestCase
     }
 
     /**
+     * Test for checking first line contains a header
+     *
+     * @param bool $expectedReturnValue
+     * @param string $string
+     *
+     * @dataProvider checkFirstLineContainsHeaderDataProvider
+     */
+    public function testCheckFirstLineContainsHeader($expectedReturnValue, $string)
+    {
+        $headerParser = new HeaderParser();
+        $this->assertSame($expectedReturnValue, $headerParser->checkFirstLineContainsHeader($string));
+    }
+
+    /**
+     * Data provider for check first line contains header test
+     *
+     * @return array
+     */
+    public function checkFirstLineContainsHeaderDataProvider()
+    {
+        return array(
+            array(false, ""),
+            array(false, "\n#useFirstLineAsLabels"),
+            array(false, "#useFirstLineAsLabels\n"),
+            array(false, "#useFirstLineAsLabels\nasdf\n"),
+            array(false, "#useFirstLineAsLabels\nlabel1\ndata1"),
+            array(true, "#useFirstLineAsLabels=1&columnDelimiter=,&lineDelimiter=%0A\n"),
+        );
+    }
+
+    /**
      * Test splitToLines method
      *
      * @param array  $expectedReturnValue Expected return value

@@ -37,6 +37,31 @@ class HeaderParser
     }
 
     /**
+     * Check if the string in the first line contains a header definition
+     * - returns true if it contains
+     * - returns false
+     *
+     * @param string $string String to check
+     *
+     * @return bool
+     */
+    public function checkFirstLineContainsHeader($string)
+    {
+        $lines = $this->splitToLines($string);
+
+        // Less than 1 lines
+        if (count($lines) < 1) {
+            return false;
+        }
+
+        if (!preg_match('/^(#useFirstLineAsLabels=)[0|1](.*)$/', $lines[0])) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Split to lines method
      *
      * @param string $string String to split to lines
