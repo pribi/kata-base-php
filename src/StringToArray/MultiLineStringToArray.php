@@ -7,16 +7,19 @@ namespace Kata\StringToArray;
 class MultiLineStringToArray extends StringToArray
 {
     /**
-     * Split to lines method
+     * Header parser
      *
-     * @param string $string String to split to lines
-     *
-     * @return array
+     * @var object
      */
+    private $headerParser;
 
-    public function splitToLines($string)
-    {
-        return explode("\n", $string);
+    /**
+     * Sets header parser
+     *
+     * @param $headerParser
+     */
+    public function setHeaderParser($headerParser) {
+        $this->headerParser = $headerParser;
     }
 
     /**
@@ -31,9 +34,9 @@ class MultiLineStringToArray extends StringToArray
      */
     public function stringToArray($string, $columnDelimiter = ',')
     {
-        $lines = $this->splitToLines($string);
+        $lines = $this->headerParser->splitToLines($string);
 
-        if ($this->checkFirstLineContainsLabel($string)) {
+        if ($this->headerParser->checkFirstLineContainsLabel($string)) {
             $returnValue = new \StdClass();
             $returnValue->labels = parent::stringToArray($lines[1]);
 
@@ -55,35 +58,5 @@ class MultiLineStringToArray extends StringToArray
         }
 
         return $returnValue;
-    }
-
-    /**
-     * Check if the string in the first line contains a label definition
-     * - returns true if it contains
-     * - returns false
-     *
-     * @param string $string String to check
-     *
-     * @return bool
-     */
-    public function checkFirstLineContainsLabel($string)
-    {
-        $lines = $this->splitToLines($string);
-
-        // Less than 2 lines, not possible label definition
-        if (count($lines) < 2) {
-            return false;
-        }
-
-        if ($lines[0] !== '#useFirstLineAsLabels') {
-            return false;
-        }
-
-        // Empty labels are no labels
-        if (empty($lines[1])) {
-            return false;
-        }
-
-        return true;
     }
 }

@@ -9,48 +9,6 @@ namespace Kata\StringToArray;
 class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
 {
     /**
-     * Test splitToLines method
-     *
-     * @param array  $expectedReturnValue Expected return value
-     * @param string $string              String
-     *
-     * @dataProvider splitToLinesDataProvider
-     *
-     */
-    public function testSplitToLines($expectedReturnValue, $string)
-    {
-        $multiLineStringToArray = new MultiLineStringToArray();
-        $this->assertSame($expectedReturnValue, $multiLineStringToArray->splitToLines($string));
-    }
-
-    /**
-     * Data provider for split to lines test
-     *
-     * @return array
-     */
-    public function splitToLinesDataProvider()
-    {
-        return  array(
-            array(
-                array(''),
-                ""
-            ),
-            array(
-                array('', 'asdf', '', ''),
-                "\nasdf\n\n"
-            ),
-            array(
-                array('211,22,35', '10,20,33'),
-                "211,22,35\n10,20,33"
-            ),
-            array(
-                array('luxembourg,kennedy,44', 'budapest,expo ter,5-7', 'gyors,fo utca,9'),
-                "luxembourg,kennedy,44\nbudapest,expo ter,5-7\ngyors,fo utca,9"
-            )
-        );
-    }
-
-    /**
      * Test stringToArray method
      *
      * @param array  $expectedReturnValue Expected return value
@@ -62,7 +20,9 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
      */
     public function testStringToArray($expectedReturnValue, $string, $columnDelimiter = ',')
     {
+        $headerParser = new HeaderParser();
         $multiLineStringToArray = new MultiLineStringToArray();
+        $multiLineStringToArray->setHeaderParser($headerParser);
         $this->assertEquals($expectedReturnValue, $multiLineStringToArray->stringToArray($string, $columnDelimiter));
     }
 
@@ -122,36 +82,6 @@ class MultiLineStringToArrayTest extends \PHPUnit_framework_TestCase
                 ),
                 "#useFirstLineAsLabels\nName,Email,Phone\nMark,marc@be.com,998\nNoemi,noemi@ac.co.uk,888"
             )
-        );
-    }
-
-    /**
-     * Test for checking first line contains a label
-     *
-     * @param bool $expectedReturnValue
-     * @param string $string
-     *
-     * @dataProvider checkFirstLineContainsLabelDataProvider
-     */
-    public function testCheckFirstLineContainsLabel($expectedReturnValue, $string)
-    {
-        $multiLineStringToArray = new MultiLineStringToArray();
-        $this->assertSame($expectedReturnValue, $multiLineStringToArray->checkFirstLineContainsLabel($string));
-    }
-
-    /**
-     * Data provider for check first line contains label test
-     *
-     * @return array
-     */
-    public function checkFirstLineContainsLabelDataProvider()
-    {
-        return array(
-            array(false, ""),
-            array(false, "\n#useFirstLineAsLabels"),
-            array(false, "#useFirstLineAsLabels\n"),
-            array(true, "#useFirstLineAsLabels\nasdf\n"),
-            array(true, "#useFirstLineAsLabels\nlabel1\ndata1"),
         );
     }
 }
