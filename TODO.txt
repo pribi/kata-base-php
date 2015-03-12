@@ -1,0 +1,6 @@
+OK 1. One line, only string. Explode by commas, returns array
+OK "a,b,c"
+OK "100,982,444,990,1"
+OK "Mark,Anthony,marka@lib.de"
+
+test with not string imput
